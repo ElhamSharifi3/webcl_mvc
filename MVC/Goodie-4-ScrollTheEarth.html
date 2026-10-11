@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG</title>
+    <style>
+        @property --progress {
+            syntax: "<number>";
+            initial-value: 0;
+            inherits: true;
+        }
+
+        body {
+            --progress: 0;
+            --clr-theme: lightgrey;
+
+            --clr-theme-night:   hsl(220deg 70% 20%);
+            --clr-theme-morning: hsl(240deg 50% 40%);
+            --clr-theme-noon:    hsl(212deg 85% 63%);
+            --clr-theme-evening: hsl(15deg 90% 60%);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--clr-theme);
+            background-color: #fff8;
+        }
+
+        .night      { --clr-theme: var(--clr-theme-night);   }
+        .morning    { --clr-theme: var(--clr-theme-morning); }
+        .noon       { --clr-theme: var(--clr-theme-noon);    }
+        .evening    { --clr-theme: var(--clr-theme-evening); }
+
+        .top {
+            width: 60%;
+            margin-inline: auto;
+
+            aspect-ratio: 2 / 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+
+            background: radial-gradient(circle at 50% 250%,
+            #fff3 52%,
+            #fff8 64%,
+            #0004 90%
+            );
+
+            position: relative;
+            overflow: clip; /* comment this to visually debug */
+            &::before {
+                z-index: -1;
+                content: "";
+                position: absolute;
+                top: -20%;
+                left: -200%;
+                width: 500%;
+                aspect-ratio: 1 / 1;
+                rotate: calc(var(--progress)*360deg);
+
+                background:
+                        conic-gradient(in display-p3,
+                        var(--clr-theme-night)   calc( 4 * 100% / 24),
+                        var(--clr-theme-morning) calc( 5 * 100% / 24),
+                        var(--clr-theme-morning) calc(10 * 100% / 24),
+                        var(--clr-theme-noon)    calc(11 * 100% / 24),
+                        var(--clr-theme-noon)    calc(15 * 100% / 24),
+                        var(--clr-theme-evening) calc(16 * 100% / 24),
+                        var(--clr-theme-evening) calc(21 * 100% / 24),
+                        var(--clr-theme-night)   calc(22 * 100% / 24)
+                        );
+            }
+        }
+        .gear {
+            aspect-ratio: 4 / 1;
+            position: relative;
+            --stretch: 2;
+
+            & > svg {
+                pointer-events: none; /* no mouse events or the dimensions are off. Let parent handle mouse. */
+                position: absolute;
+                top: 0;
+                left: 0;
+                translate: calc((var(--stretch) - 1) * -100% / 4) 5%;
+                width: calc(var(--stretch) * 100%);
+                rotate: calc(var(--progress)*90deg);
+            }
+            & .h-scroll-window {
+                position: absolute;
+                inset: 0;
+                overflow-x: scroll;
+                overscroll-behavior: contain;
+                scrollbar-width: none;
+
+                & .left-right {
+                    position: absolute;
+                    width: 200%;   /* bigger than parent or there would be nothing to scroll */
+                    inset: 0;
+                }
+            }
+        }
+
+        .tooth {
+            stroke-width: 0.004;
+            stroke-opacity: 1;
+            stroke-linecap: round;
+            stroke: white;
+            fill: #fff4;
+        }
+    </style>
+</head>
+
+<body>
+<div class="top">
+    <div class="gear">
+        <svg viewBox="-1.01 -1.01 2.02 2.02"
+             fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+            <path class="tooth paintStroke" />
+        </svg>
+
+        <div class="h-scroll-window">
+            <div class="left-right">
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>FHNW Web Clients Goodie</h1>
+
+<script type="module" src="./controller.js"></script>
+</body>
+</html>

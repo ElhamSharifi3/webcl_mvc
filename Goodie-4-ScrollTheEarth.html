@@ -123,7 +123,7 @@
 </div>
 <h1>FHNW Web Clients Goodie</h1>
 <script>
-    const gearPath = ({toothCount, roundness, ratio, radius}) => {
+    const gearPath = ({toothCount, roundness, ratio, radius}) => { //-> view
         let result         = "";
         const sin = x => Math.round(Math.sin(x) * 1000) / 1000;
         const cos = x => Math.round(Math.cos(x) * 1000) / 1000;
@@ -159,26 +159,26 @@
                      `
         }
         return result;
-    };
-    document.querySelector(".gear svg path")
+    }; // -> view
+    document.querySelector(".gear svg path") // -> view
         .setAttribute("d", gearPath({toothCount:64, roundness:0.2, ratio:0.8, radius:0.95}));
 
-    let progress = 0; // value from 0 to 1
-    const setProgress = num => {
-        progress = num; // since we have no observable here, update all users manually
-        document.body.style.setProperty("--progress", String(1 - progress)); // change scroll direction (?)
-        let className = 'night';
-        const h = 1 / 24;
-        if (progress >=  0 * h && progress <   6 * h) className = 'night';
-        if (progress >=  6 * h && progress <  10 * h) className = 'morning';
-        if (progress >= 10 * h && progress <  16 * h) className = 'noon';
-        if (progress >= 16 * h && progress <  20 * h) className = 'evening';
-        if (progress >= 20 * h && progress <  24 * h) className = 'night';
-        document.body.className = className;
+    let progress = 0; // value from 0 to 1 // -> model
+    const setProgress = num => { // ->  model 
+        progress = num; // since we have no observable here, update all users manually // ->  model 
+        document.body.style.setProperty("--progress", String(1 - progress)); // change scroll direction (?)   // -> view
+        let className = 'night'; // -> model
+        const h = 1 / 24;       // -> model
+        if (progress >=  0 * h && progress <   6 * h) className = 'night';      // -> model
+        if (progress >=  6 * h && progress <  10 * h) className = 'morning';   // -> model
+        if (progress >= 10 * h && progress <  16 * h) className = 'noon';     // -> model
+        if (progress >= 16 * h && progress <  20 * h) className = 'evening'; // -> model
+        if (progress >= 20 * h && progress <  24 * h) className = 'night';  // -> model
+        document.body.className = className;   // -> view
     };
 
-    const scroller = document.querySelector(".h-scroll-window");
-    scroller.onscroll = _evt => {
+    const scroller = document.querySelector(".h-scroll-window"); // -> view
+    scroller.onscroll = _evt => { // -> controller
         setProgress(scroller.scrollLeft / scroller.getBoundingClientRect().width); /* width might have changed */
     };
 
