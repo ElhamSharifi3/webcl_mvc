@@ -36,8 +36,10 @@ const gearPath = ({toothCount, roundness, ratio, radius}) => {
     return result;
 };
 
-document.querySelector(".gear svg path")
-    .setAttribute("d", gearPath({toothCount:64, roundness:0.2, ratio:0.8, radius:0.95}));
+export const createView = () => {
+    document.querySelector(".gear svg path")
+        .setAttribute("d", gearPath({toothCount:64, roundness:0.2, ratio:0.8, radius:0.95}));
+};
 
 export const updateProgress = progress => {
     document.body.style.setProperty("--progress", String(1 - progress));

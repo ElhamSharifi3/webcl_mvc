@@ -1,15 +1,12 @@
 import { setProgress, getProgress, getDaytime } from "./model.js";
 import { updateProgress, updateDaytime, scroller } from "./view.js";
 
-const update = num => {
+export const update = num => {
     setProgress(num);
     updateProgress(getProgress());
     updateDaytime(getDaytime());
 };
 
-scroller.onscroll = _evt => {
-    update(scroller.scrollLeft / scroller.getBoundingClientRect().width); /* width might have changed */
-};
 
 // animate from 0 to current hour
 const targetHour = new Date().getHours();
@@ -22,4 +19,5 @@ const setAndWait = hour => {
         setAndWait(hour);
     }, 50);
 };
-setAndWait(0);
+
+export const startAnimation = () => setAndWait(0);
